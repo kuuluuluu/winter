@@ -1,0 +1,20 @@
+.site-title {
+  font-size: 18px;
+  line-height: 22px;
+  font-weight: bold;
+  margin: 0;
+  transform: translateY(2px);
+
+  @media all and (min-width: $tablet) {
+    text-align: start;
+    padding: 40px 60px 20px;
+    font-size: 50px;
+    line-height: 67px;
+    font-size: 30px;
+    line-height: 37px;
+    
+    span {
+      display: inline;
+    }
+  }
+}

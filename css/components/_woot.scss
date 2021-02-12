@@ -1,0 +1,11 @@
+[dir="rtl"] {
+  .woot-widget-bubble.woot-elements--right,
+  .woot-widget-holder.woot-elements--right {
+    right: auto;
+    left: 20px;
+  }
+
+  .woot-widget-bubble img {
+    transform: scaleX(-1);
+  }
+}

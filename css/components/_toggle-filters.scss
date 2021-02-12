@@ -1,0 +1,15 @@
+.toggle-filters {
+  border: none;
+  padding: 10px 0;
+  cursor: pointer;
+  outline: none;
+  display: flex;
+  align-items: center;
+  background: white;
+  gap: 10px;
+
+  img {
+    margin-inline-start: -2px;
+    width: 24px;
+  }
+}

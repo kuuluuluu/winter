@@ -1,0 +1,40 @@
+.video.teaser {
+  color: var(--text);
+  text-decoration: none;
+
+  .title {
+    margin: 10px 0;
+    font-size: 16px;
+  }
+
+  .cover-wrapper {
+    max-width: 100%;
+    padding-bottom: 55%;
+    width: 100%;
+    position: relative;
+  }
+
+  .cover {
+    object-fit: cover;
+    object-position: center;
+    top: 0;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    width: 100%;
+  }
+
+  .progress {
+    height: 6px;
+    background: var(--color-primary);
+  }
+
+  @include size(0px, 1, 20px);
+  @include size(280px, 2, 20px);
+  @include size(970px, 3, 60px);
+  @include size(1500px, 4, 60px);
+  @include size(1840px, 5, 60px);
+  @include size(2240px, 6, 60px);
+  @include size(2440px, 7, 60px);
+
+}

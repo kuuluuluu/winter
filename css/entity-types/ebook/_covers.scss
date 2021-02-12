@@ -1,0 +1,58 @@
+.ebook.full .cover-and-download-wrapper {
+  display: grid;
+  margin-inline-start: 20px;
+  width: calc(100% - 40px);
+  gap: 10px;
+  position: relative;
+  grid-template-columns: auto 75px;
+  grid-template-rows: 60px auto;
+  grid-template-areas: 
+  "cover downloads"
+  "cover backcover";
+
+  .cover.front[cover="front"],
+  .cover.back[cover="back"] {
+    object-fit: contain;
+    object-position: left top;
+    width: 100%;
+    // max-height: calc(100vh - 140px);
+    display: block;
+    grid-area: cover;
+  }
+
+  .cover.back[cover="front"],
+  .cover.front[cover="back"] {
+    cursor: pointer;
+    display: block;
+    z-index: 1;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, .2);
+    grid-area: backcover;
+    position: absolute;
+    min-height: 60%;
+    height: 60%;
+    right: 0;
+    min-width: 100px;
+    top: calc(30%);
+  }
+}
+
+[dir="rtl"] .ebook.full {
+  > .cover-and-download-wrapper {
+    .cover.back[cover="front"],
+    .cover.front[cover="back"] {
+      right: auto;
+      left: 0;
+    }
+  }
+}
+
+
+@media all and (min-width: 1100px) {
+  .ebook.full {
+    > .cover-and-download-wrapper {
+      margin-block-end: auto;
+      position: sticky;
+      top: 175px;
+    }
+  }
+}

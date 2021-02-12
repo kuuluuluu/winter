@@ -1,0 +1,40 @@
+.ebook.full .downloads {  
+  margin-inline-start: auto;
+
+  .file-download {
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    text-decoration: none;
+    grid-area: downloads;
+
+    img {
+      border-radius: var(--radius);
+      padding: 5px;
+      width: 32px;
+      height: 32px;
+      fill: var(--color-gray-dark);
+    }
+
+    span {
+      color: var(--color-gray-dark);
+      font-size: 12px;
+    } 
+  }
+
+  .pdf img {
+    background: var(--color-secondary);
+  }
+
+  .epub img {
+    background: var(--color-tertiary);
+  }
+}
+
+// @media all and (min-width: 720px) {
+//   .file-download img {
+//     padding: 12px;
+//     width: 42px;
+//     height: 42px;  
+//   }
+// }  

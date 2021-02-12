@@ -1,0 +1,37 @@
+.back-to-overview {
+  text-transform: uppercase;
+  color: var(--text);
+  text-decoration: none;
+  position: relative;
+  font-size: 14px;
+  display: flex;
+  padding: 10px 20px;
+  display: flex;
+  border-bottom: 1px solid var(--color-gray-dark);
+  align-items: center;
+  position: sticky;
+  top: 61px;
+  z-index: 4;
+  background: white;
+  font-size: 12px;;
+
+  > .triangle {
+    font-size: 10px;
+    margin-inline-end: 10px;
+    transform: translateY(-2px);
+  }
+}
+
+[dir="rtl"] .back-to-overview {
+  > .triangle {
+    left: auto;
+    right: -30px;
+    transform: scaleX(-1);
+  }
+}
+
+@media all and (min-width: $tablet) {
+  .back-to-overview {
+    top: 82px;
+  }
+}

@@ -1,0 +1,20 @@
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 26;
+  display: flex;
+  background: white;
+  align-items: center;
+  border-block-end: 1px solid var(--text);
+  grid-area: header;
+
+  a {
+    display: block;
+  }
+
+  @media all and (min-width: $tablet) {
+    position: sticky;
+    border: none;
+    top: 0;
+  }
+}

@@ -1,0 +1,16 @@
+* {
+  box-sizing: border-box;
+}
+
+.mobile {
+  @media all and (min-width: $tablet) {
+    display: none !important;
+  }
+}
+
+.desktop {
+  @media all and (max-width: 719px) {
+    display: none !important;
+  }
+}
+

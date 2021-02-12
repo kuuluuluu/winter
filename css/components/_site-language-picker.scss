@@ -1,0 +1,19 @@
+.site-language-picker-wrapper {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+}
+
+.site-language-picker {
+  flex: 1 1 auto;
+}
+
+.site-language-picker-icon {
+  width: 20px;
+}
+
+@media all and (min-width: $tablet) { 
+  .site-language-picker-wrapper {
+    width: auto;
+  }
+}

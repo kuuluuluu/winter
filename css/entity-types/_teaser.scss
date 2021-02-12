@@ -1,0 +1,48 @@
+.teaser {
+  position: relative;
+  display: flex;
+  max-width: 100vw;
+  flex-direction: column;
+  justify-content: flex-start;
+  text-decoration: none;
+  color: var(--text);
+
+  .image {
+    max-width: 100%;
+    margin-block-end: 20px;
+    border-radius: var(--radius);
+  }
+
+  .title {
+    word-break: break-word;
+    margin: 0;
+    font-weight: bold;
+    font-size: 14px;
+    letter-spacing: 0.42px;
+  }
+
+  .sub-title {
+    font-size: 14px;
+    font-style: italic;
+  }
+
+  @include size(0px, 1, 40px);
+  @include size(280px, 2, 40px);
+  @include size(580px, 3, 40px);
+  @include size(720px, 2, 60px);
+  @include size(900px, 2, 60px);
+  @include size(1100px, 3, 60px);
+  @include size(1400px, 4, 60px);
+  @include size(1600px, 5, 60px);
+  @include size(1800px, 6, 60px);
+  @include size(2240px, 7, 60px);
+  @include size(2440px, 8, 60px);
+
+  @media all and (min-width: $tablet) {
+    text-align: center;
+
+    .title, .sub-title {
+      font-size: 16px;
+    }
+  }
+}

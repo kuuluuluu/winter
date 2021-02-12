@@ -1,0 +1,38 @@
+.content-top {
+    z-index: 25;
+    width: 100%;
+    position: fixed;
+    top: 50px;
+    padding: 20px;
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid var(--color-gray-dark);
+    background: white;
+    opacity: 0;
+    pointer-events: none;
+    transition: transform var(--speed) var(--easing), opacity 0s var(--easing) var(--speed);
+    transform: translateY(-100%);
+
+    @media all and (min-width: $tablet) {
+      padding: 20px 40px;
+      position: sticky;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 40px;
+      flex-direction: row;
+      top: 0;
+      z-index: 6;
+      flex-wrap: wrap;
+      opacity: 1;
+      pointer-events: all;
+      transform: translateY(0);
+    }
+  }
+
+[data-show-panel="menu"] .content-top {
+  opacity: 1;
+  transition: transform var(--speed) var(--easing), opacity 0s var(--easing) 0s;
+  pointer-events: all;
+  transform: translateY(0);
+}

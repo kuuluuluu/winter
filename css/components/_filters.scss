@@ -1,0 +1,88 @@
+.sidebar.filters {
+  grid-area: sidebar;
+  position: sticky;
+  z-index: 35;
+  background: white;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  left: 0;
+  transition: transform var(--speed) var(--easing), opacity 0s var(--easing) var(--speed);
+  transform: translateY(-100%);
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+
+  .close {
+    border: none;
+    appearance: none;
+    cursor: pointer;
+    padding: 0;
+    position: absolute;
+    align-self: end;
+    z-index: 2;
+    background: none;
+  }
+
+  .inner {
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+
+    > .title {
+      margin: 0;
+      padding-top: 40px;
+      display: flex;
+      top: 0;
+      background: white;
+      position: sticky;
+      justify-content: space-between;
+    }
+  }
+
+  .filter {
+    flex: 1 1 auto;
+    margin-bottom: 20px;
+
+    > .title {
+      margin: 10px 0;
+    }
+
+    input, select {
+      width: 100%;
+    }
+  }
+
+  @media all and (min-width: $tablet) {
+    top: 0;
+    display: block;
+    padding: 10px 60px 20px 40px;
+    top: 137px;
+    margin-bottom: auto;
+    height: auto;
+    overflow: visible;
+    opacity: 1;
+    width: auto;
+    position: sticky;
+    pointer-events: all;
+    transform: translateY(0);
+    border: none;
+
+    .close {
+      display: none;
+    }
+  }
+}
+
+@media all and (max-width: 719px) {
+  [data-show-panel="filters"] .sidebar.filters {
+    opacity: 1;
+    transition: transform var(--speed) var(--easing), opacity 0s var(--easing) 0s;
+    pointer-events: all;
+    transform: translateY(0);
+  }
+}

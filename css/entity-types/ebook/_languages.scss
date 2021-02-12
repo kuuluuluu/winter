@@ -1,0 +1,31 @@
+.ebook.full {
+  .language,
+  .other-languages {
+    .value {
+      padding: 2px 4px;
+      line-height: 1;
+      border-radius: 4px;
+      font-size: 14px;
+      text-decoration: none;
+      background: var(--color-secondary);
+      color: white;
+      display: inline-block;
+      border: 1px solid var(--color-secondary);
+      margin-inline-end: 4px;
+      margin-block-end: 4px;
+  
+      &.other {
+        background: none;
+        color: var(--color-gray-dark);
+        border: 1px solid var(--color-gray-dark);
+      }
+  
+      // @media all and (min-width: $tablet) {
+      //   padding: 3px 8px;
+      //   font-size: 16px;
+      //   margin-inline-end: 10px;
+      //   margin-block-end: 14px;  
+      // }
+    }
+  } 
+}

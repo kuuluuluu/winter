@@ -14,11 +14,13 @@ export class Video {
       <a href="${"/" + typeSlug + "/" + lastPart(item.id) + `?item-language=${item.langCode}` + (filters ? "&" + filters : "")}" 
          class="${"teaser " + typeSlug}" 
          onclick="${linkClick}">
-        ${item.covers ? html`<div class="cover-wrapper"><img class="cover" src="${item.covers}" /></div>` : ""}
+        ${item.cover ? html`<div class="cover-wrapper"><img loading="lazy" class="cover" src="${item.cover}" /></div>` : ""}
         <div class="progress" style="${`width: ${localStorage[youtubeId] ? localStorage[youtubeId] : 0}%;`}" ></div>
         <h3 class="title">${item.title}</h3>
       </a>
     `;
+  }
+  pageInit() {
   }
   page() {
     const query = new URLSearchParams(location.search);

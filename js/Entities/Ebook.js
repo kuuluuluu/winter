@@ -1,65 +1,63 @@
-import {html, svg} from "../vendor/uhtml.js";
-import {lastPart, linkClick} from "../helpers.js";
+import {html} from "../vendor/uhtml.js";
+import {lastPart, linkClick, getPropertyFromId} from "../helpers.js";
 import {template_content_top} from "../BaseTemplates.js";
 import {app} from "../App.js";
 import {t} from "../LanguageService.js";
 export class Ebook {
   teaser(item, filters) {
-    const typeSlug = item.type.toLowerCase();
     let frontCover = item?.covers?.find((cover) => cover.includes("front"));
-    if (!frontCover && item?.covers.length)
+    if (!frontCover && item?.covers?.length)
       frontCover = item?.covers[0];
+    const authorNames = item.authors.map((authorId) => getPropertyFromId(app.authors, authorId, item.langCode, "name"));
+    const link = "/ebook/" + lastPart(item.id) + `?item-language=${item.langCode}` + (filters ? "&" + filters : "");
     return html`
-      <a href="${"/" + typeSlug + "/" + lastPart(item.id) + `?item-language=${item.langCode}` + (filters ? "&" + filters : "")}" 
-         class="${"teaser " + typeSlug}" 
-         onclick="${linkClick}">
-        ${frontCover ? html`<img class="cover" src="${frontCover}" />` : ""}
+      <a href="${link}" class="teaser ebook" onclick="${linkClick}">
+        ${frontCover ? html`<img loading="lazy" class="image" src="${frontCover}" />` : ""}
         <h3 class="title">${item.title}</h3>
-        <span class="authors">${item.authors.map((author) => author.name)}</span>
+        ${authorNames.length ? html`<span class="sub-title">${authorNames.map((authorName) => authorName)}</span>` : html``}
       </a>
     `;
   }
+  pageInit() {
+    app.currentCover = "front";
+  }
   page() {
     const query = new URLSearchParams(location.search);
-    if (!app.currentCover)
-      app.currentCover = "front";
     const id = location.pathname.split("/")?.[2];
     const item = app.items.find((item2) => lastPart(item2.id) === id && item2.langCode === query.get("item-language"));
     if (!item)
       window.location.pathname = "/";
-    const typeSlug = item.type.toLowerCase();
+    const authors = item.authors.map((authorId) => getPropertyFromId(app.authors, authorId, item.langCode));
+    const backButton = (extraClass) => html`<a class="${"back-to-overview " + extraClass}" onclick="${linkClick}" href="${"/?" + app.createFilterUrl()}"><span class="triangle">◀</span>${t`Back to search results`}</a>`;
     return html`
       <div class="content-wrapper">
         ${template_content_top()}
 
-        <div class="${"full content " + typeSlug}">
-          ${this.covers(item)}
+        <div class="${"full content ebook"}">
+          ${backButton("")}
 
-          <div class="content-inner">
-            <header class="book-header">
-              <h1 class="title">${item.title}</h1>
-              <h3 class="authors">${item.authors.map((author) => author.name)}</h3>
-              
-              ${item.originalTitle ? html`<h5 class="original-title"><label>${t`Original title:`}</label>${item.originalTitle}</h5>` : ""}
-              ${this.downloads(item)}
-              ${this.languages(item)}
-            </header>
+          <header class="book-header">
+            <h1 class="title">${item.title}</h1>
+            <h3 class="authors">${authors.map((author) => author.name)}</h3>
+            
+            ${this.languages(item)}
+            
+          </header>
 
-            <div class="description">
-              <p>${item.description}</p>
-              ${this.videos(item)}
-              ${item.tags.length ? html`
-                <div class="tags">
-                  <label class="title">${t`Keywords:`} </label>
-                  ${item.tags.map((tag) => html`<a class="tag" onclick="${linkClick}" href="${"/?tags=" + tag}">${tag}</a>`)}
-                </div>
-              ` : ""}
-            </div>
-
-            <div class="right">
-              ${this.authors(item)}
-            </div>
+          <div class="cover-and-download-wrapper field">
+            ${this.covers(item)}
+            ${this.downloads(item)}
           </div>
+
+          <div class="description field">
+            <p>${item.description}</p>
+            ${this.videos(item)}
+          </div>
+
+          <div class="authors field">
+            ${this.authors(authors)}
+          </div>
+
         </div>
       </div>
     `;
@@ -76,23 +74,17 @@ export class Ebook {
       }
     };
     return html`
-      <div class="covers left" cover="${app.currentCover}" onclick="${coverClick}">
-        ${frontCover ? html`<img class="cover front" alt="${item.title}" src="${frontCover}" />` : ""}
-        ${backCover ? html`<img class="cover back" alt="${item.title}" src="${backCover}" />` : ""}
-      </div>
+      ${frontCover ? html`<img cover="${app.currentCover}" onclick="${coverClick}" class="cover front" alt="${item.title}" src="${frontCover}" />` : ""}
+      ${backCover ? html`<img cover="${app.currentCover}" onclick="${coverClick}" class="cover back" alt="${item.title}" src="${backCover}" />` : ""}
     `;
   }
   downloads(item) {
-    const pdfFile = item.links.find((file) => file.includes(".pdf"));
-    const epubFile = item.links.find((file) => file.includes(".epub"));
-    const downloadIcon = svg`<svg xmlns="http://www.w3.org/2000/svg" version="1.1" x="0" y="0" viewBox="0 0 67 89" xml:space="preserve"><g transform="translate(-16.700001,-5.3999996)"><rect x="16.7" y="83.5" width="66.5" height="10.9"/><polygon points="44.5 5.6 55.5 5.6 55.5 58.3 71.8 41.9 79.6 49.8 53.9 75.5 50 79.2 46.1 75.5 20.4 49.8 28.2 41.9 44.5 58.3 "/></g></svg>`;
+    const pdfFile = item?.links?.find((file) => file.includes(".pdf"));
+    const epubFile = item?.links?.find((file) => file.includes(".epub"));
     return pdfFile || epubFile ? html`
-      <div class="downloads">
-        <label class="title">${t`Download`}</label>
-        <div class="inner">
-          ${pdfFile ? html`<a class="pdf file-download" href="${pdfFile}" target="_blank">${downloadIcon}<span>${t`PDF`}</span></a>` : ""}
-          ${epubFile ? html`<a class="epub file-download" href="${epubFile}" target="_blank">${downloadIcon}<span>${t`ePub`}</span></a>` : ""}
-        </div>
+      <div class="downloads field">
+        ${pdfFile ? html`<a class="pdf file-download" href="${pdfFile}" target="_blank"><img src="/images/download.svg" /><span>${t`PDF`}</span></a>` : ""}
+        ${epubFile ? html`<a class="epub file-download" href="${epubFile}" target="_blank"><img src="/images/download.svg" /><span>${t`ePub`}</span></a>` : ""}
       </div>
     ` : "";
   }
@@ -106,39 +98,45 @@ export class Ebook {
       };
     });
     return html`
-      <span class="language">${item.language}</span>
-      ${otherLanguages.length ? html`
-        <div class="other-languages">
-          <label>${t`Also available in:`}</label>  
-          ${otherLanguages.map((languageItem) => html`
-            <a class="language other" onclick="${linkClick}" href="${"/" + typeSlug + "/" + lastPart(item.id) + `?item-language=${languageItem.langCode}` + (filters ? "&" + filters : "")}">${languageItem.language}</a>
-          `)}
-        </div>` : ""}
+    <div class="language field">
+      <label class="field-label language-label">${t`Language:`}</label>  
+      <span class="value">${item.language}</span>
+    </div>
+
+    ${otherLanguages.length ? html`
+      <div class="other-languages field">
+        <label class="field-label also-available">${t`Also available in:`}</label>  
+        ${otherLanguages.map((languageItem) => html`
+          <a class="value other" onclick="${linkClick}" href="${"/" + typeSlug + "/" + lastPart(item.id) + `?item-language=${languageItem.langCode}` + (filters ? "&" + filters : "")}">${languageItem.language}</a>
+        `)}
+      </div>` : ""}
+
+    ${item.originalTitle ? html`
+      <div class="original-title field">
+        <label class="original-title-label field-label">${t`Original title:`} </label>
+        <span class="value">${item.originalTitle}</span>
+    </div>` : ""}
     `;
   }
   videos(item) {
-    const youtubeLinks = item.links.filter((file) => file.includes("youtube.com")).map((link) => {
+    const youtubeLinks = item?.links?.length ? item?.links.filter((file) => file.includes("youtube.com")).map((link) => {
       const youtubeId = link.replace("https://www.youtube.com/watch?v=", "").replace("https://www.youtube.com/embed/", "");
       return `https://www.youtube.com/embed/${youtubeId}`;
-    });
+    }) : [];
     return youtubeLinks.map((link) => html`
       <div class="responsive-youtube">
         <iframe modestbranding="1" rel="0" src="${link}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>              
     `);
   }
-  authors(item) {
-    return item.authors.map((author) => html`
+  authors(authors) {
+    return authors.map((author) => author?.description ? html`
       <div class="author-info">
         <p>
           ${author.image ? html`<img class="image" src="${author.image}">` : ""}
           ${author.description}
         </p>
-
-        ${author.url ? html`<a class="button" target="_blank" href="${author.url}">${author.url}</a>` : ""}
-        
-        <a class="button" href="${"/?authors=" + author.name}" onclick="${linkClick}">${t`Other books of ${{author: author.name}}`}</a>
       </div>
-    `);
+    ` : "");
   }
 }
